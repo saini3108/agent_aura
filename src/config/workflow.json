@@ -1,0 +1,15 @@
+{
+  "execution_order": [
+    "analyst",
+    "validator",
+    "documentation",
+    "human_review",
+    "reviewer",
+    "auditor"
+  ],
+  "parallel_execution": false,
+  "timeout_seconds": 300,
+  "enable_human_review": true,
+  "auto_approve_threshold": 0.9,
+  "max_retries": 3
+}

@@ -2,15 +2,18 @@
 ValiCred-AI: Credit Risk Model Validation System
 ===============================================
 
-Streamlined main application entry point with clean architecture
+Production-ready application with dynamic configuration, real-time communication,
+and comprehensive data upload capabilities.
 """
 
 import streamlit as st
+from src.core.clean_config_system import get_config
 from src.core.app_factory import initialize_application, initialize_session_state, configure_page
 from src.ui.dashboard import show_dashboard, show_system_status
-from src.ui.workflow_interface import show_mcp_workflow
+from src.ui.enhanced_workflow_demo import show_enhanced_workflow_demo
 from src.ui.reports_interface import show_reports, show_audit_trail
 from src.ui.configuration_panel import show_configuration
+from src.ui.data_upload import show_data_upload_interface
 
 def main():
     """Main application entry point"""
@@ -47,17 +50,32 @@ def main():
     st.sidebar.title("🏦 ValiCred-AI")
     st.sidebar.markdown("**Credit Risk Model Validation**")
 
+    # Load dynamic configuration
+    config = get_config()
+    ui_settings = config.get_ui_settings()
+
     page = st.sidebar.selectbox(
         "Navigate",
-        ["Dashboard", "MCP Workflow", "Reports", "Audit Trail", "Configuration", "System Status"]
+        ["Dashboard", "Data Upload", "Workflow Engine", "Reports", "Audit Trail", "Configuration", "System Status"]
     )
 
     # Route to appropriate page
     if page == "Dashboard":
         show_dashboard(mcp_engine, audit_logger, sample_loader)
 
-    elif page == "MCP Workflow":
-        show_mcp_workflow(mcp_engine, audit_logger)
+    elif page == "Data Upload":
+        data_config = config.get_data_config()
+        uploaded_data, metadata = show_data_upload_interface(data_config)
+
+        if uploaded_data is not None:
+            st.session_state.validation_data = uploaded_data
+            st.session_state.data_metadata = metadata
+            if audit_logger:
+                audit_logger.log_data_operation("data_uploaded", metadata)
+            st.success("Data uploaded successfully! You can now proceed to MCP Workflow.")
+
+    elif page == "Workflow Engine":
+        show_enhanced_workflow_demo()
 
     elif page == "Reports":
         show_reports(mcp_engine, audit_logger)
