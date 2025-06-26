@@ -1,0 +1,125 @@
+CREDIT RISK MODEL METHODOLOGY DOCUMENT
+
+Document Version: 2.1
+Last Updated: June 2025
+Model Name: Personal Credit Risk Scorecard
+
+1. MODEL OVERVIEW
+
+1.1 Purpose
+This document describes the methodology for the Personal Credit Risk Scorecard used to assess the probability of default for consumer credit applications.
+
+1.2 Scope
+- Consumer loans ranging from $5,000 to $50,000
+- Unsecured personal loans with terms of 12-60 months
+- Applicants aged 18-75 with verifiable income
+
+2. DATA REQUIREMENTS
+
+2.1 Input Variables
+Required fields for model scoring:
+- Credit Score (300-850 range)
+- Annual Income (verified)
+- Employment Years (current position)
+- Debt-to-Income Ratio
+- Home Ownership Status
+- Loan Purpose
+- Age of Applicant
+
+2.2 Data Sources
+- Credit Bureau Reports (Experian primary)
+- Income Verification (bank statements, pay stubs)
+- Application Data
+- Internal Customer History
+
+3. MODEL DEVELOPMENT
+
+3.1 Statistical Approach
+Logistic regression model with binary outcome:
+- Target Variable: Default Flag (1=Default, 0=No Default)
+- Default Definition: 90+ days past due within 12 months
+
+3.2 Variable Selection
+Forward stepwise selection based on:
+- Statistical significance (p < 0.05)
+- Business intuition
+- Regulatory compliance
+- Model stability
+
+3.3 Model Equation
+Log(odds) = β0 + β1*CreditScore + β2*DTI + β3*Income + β4*Employment + β5*Age
+
+4. VALIDATION FRAMEWORK
+
+4.1 Performance Metrics
+- Area Under Curve (AUC) > 0.70
+- Kolmogorov-Smirnov > 0.20
+- Population Stability Index < 0.25
+- Gini Coefficient > 0.40
+
+4.2 Validation Tests
+- Out-of-time validation
+- Cross-validation (5-fold)
+- Stress testing
+- Sensitivity analysis
+
+5. MODEL ASSUMPTIONS
+
+5.1 Key Assumptions
+- Credit bureau data accuracy
+- Stable economic conditions
+- Consistent underwriting standards
+- No major regulatory changes
+
+5.2 Limitations
+- Limited to prime and near-prime segments
+- Requires minimum 12 months credit history
+- Not applicable for secured loans
+
+6. GOVERNANCE AND CONTROLS
+
+6.1 Model Risk Management
+- Independent validation required
+- Annual model review mandatory
+- Quarterly performance monitoring
+- Exception reporting for drift
+
+6.2 Documentation Standards
+- Complete audit trail maintained
+- Version control implemented
+- Change management process
+- Regulatory filing requirements
+
+7. IMPLEMENTATION GUIDELINES
+
+7.1 Scoring Process
+- Real-time API integration
+- Batch processing capability
+- Manual override procedures
+- Quality assurance checks
+
+7.2 Monitoring Requirements
+- Daily volume checks
+- Weekly performance metrics
+- Monthly stability analysis
+- Quarterly comprehensive review
+
+8. REGULATORY COMPLIANCE
+
+8.1 Basel III Requirements
+- Pillar 1: Capital adequacy assessment
+- Pillar 2: Supervisory review process
+- Pillar 3: Market discipline disclosure
+
+8.2 Model Risk Guidance
+- SR 11-7 compliance framework
+- Independent validation standards
+- Documentation requirements
+- Governance expectations
+
+APPROVED BY:
+Chief Risk Officer: Dr. Sarah Johnson
+Date: June 26, 2025
+
+Model Risk Committee: Approved
+Date: June 20, 2025

@@ -95,6 +95,11 @@ The system employs six specialized agents:
 ```
 Changelog:
 - June 26, 2025. Initial setup
+- June 26, 2025. Added comprehensive sample data system with realistic credit data (50 records)
+- June 26, 2025. Created sample documentation files for compliance testing
+- June 26, 2025. Implemented FastAPI backend architecture and LangGraph workflow framework
+- June 26, 2025. Enhanced dashboard with quick-start functionality and progress tracking
+- June 26, 2025. Fixed documentation loading error with actual sample documents
 ```
 
 ## User Preferences

@@ -111,33 +111,51 @@ class SampleDataLoader:
             raise Exception(f"Error loading risk thresholds: {str(e)}")
     
     def get_sample_documents(self) -> Dict[str, Dict[str, Any]]:
-        """Generate sample document metadata for testing"""
-        sample_docs = {
-            "model_validation_report.pdf": {
-                "size": 2048576,  # 2MB
-                "uploaded_at": datetime.now().isoformat(),
-                "type": "validation_report",
-                "compliance_areas": ["Basel III", "Model Risk Management"]
-            },
-            "model_methodology.docx": {
-                "size": 1048576,  # 1MB
-                "uploaded_at": datetime.now().isoformat(),
-                "type": "methodology_document",
-                "compliance_areas": ["IFRS 9", "Model Documentation"]
-            },
-            "data_dictionary.xlsx": {
-                "size": 512000,  # 512KB
-                "uploaded_at": datetime.now().isoformat(),
-                "type": "data_documentation",
-                "compliance_areas": ["Data Governance"]
-            },
-            "governance_policy.pdf": {
-                "size": 768000,  # 768KB
-                "uploaded_at": datetime.now().isoformat(),
-                "type": "policy_document",
-                "compliance_areas": ["Basel III", "Model Risk Management", "Governance"]
-            }
-        }
+        """Load actual sample documentation files for testing"""
+        sample_docs = {}
+        
+        # List of actual sample document files
+        doc_files = [
+            "model_validation_report.txt",
+            "model_methodology_document.txt", 
+            "governance_policy.txt"
+        ]
+        
+        for filename in doc_files:
+            file_path = os.path.join(self.base_path, filename)
+            try:
+                if os.path.exists(file_path):
+                    # Read file content and get size
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    
+                    file_size = len(content.encode('utf-8'))
+                    
+                    # Determine document type and compliance areas
+                    doc_type = "documentation"
+                    compliance_areas = []
+                    
+                    if "validation" in filename.lower():
+                        doc_type = "validation_report"
+                        compliance_areas = ["Basel III", "Model Risk Management"]
+                    elif "methodology" in filename.lower():
+                        doc_type = "methodology_document"
+                        compliance_areas = ["IFRS 9", "Model Documentation"]
+                    elif "governance" in filename.lower():
+                        doc_type = "policy_document"
+                        compliance_areas = ["Basel III", "Model Risk Management", "Governance"]
+                    
+                    sample_docs[filename] = {
+                        "file_content": content,
+                        "size": file_size,
+                        "uploaded_at": datetime.now().isoformat(),
+                        "type": doc_type,
+                        "compliance_areas": compliance_areas,
+                        "file_path": file_path
+                    }
+                    
+            except Exception as e:
+                print(f"Warning: Could not load {filename}: {str(e)}")
         
         return sample_docs
     
