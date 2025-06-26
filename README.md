@@ -164,41 +164,43 @@ The system includes realistic sample credit data with:
 - Comprehensive error handling and logging
 - Human-in-the-loop integration points
 
-## Project Structure (Agent Aura Architecture)
+## Project Structure
 
 ```
-agent_aura/
-├── frontend/              # Streamlit application
-│   ├── app.py            # Main application with MCP integration
-│   └── configuration_manager.py  # Interactive configuration UI
-├── agent-service/
-│   ├── agents/           # MCP agent implementations
-│   │   ├── analyst_agent.py      # Data analysis agent
-│   │   ├── validator_agent.py    # Metrics validation agent
+valicred-ai/
+├── src/                           # Source code
+│   ├── agents/                    # AI agent implementations
+│   │   ├── analyst_agent.py       # Data analysis agent
+│   │   ├── validator_agent.py     # Metrics validation agent
 │   │   ├── documentation_agent.py # Compliance review agent
-│   │   ├── reviewer_agent.py     # Findings generation agent
-│   │   └── auditor_agent.py      # Final audit agent
-│   ├── flows/            # LangGraph workflow orchestration
-│   │   └── mcp_workflow_engine.py # MCP + LangGraph engine
-│   ├── tools/            # FastAPI service tools
-│   │   ├── fastapi_server.py     # API endpoints
-│   │   └── langgraph_workflow.py # Workflow definitions
-│   └── memory/           # Context and state management
-├── shared/               # Shared utilities and configuration
-│   ├── system_config.py  # Dynamic configuration management
-│   ├── audit_logger.py   # Comprehensive audit trail
-│   ├── validation_metrics.py # Statistical calculations
-│   ├── workflow_manager.py    # Workflow coordination
-│   ├── report_generator.py    # Multi-format reporting
-│   ├── sample_data_loader.py  # Data loading utilities
-│   └── sample_data/      # Sample datasets
-│       ├── credit_data.csv
-│       ├── validation_parameters.csv
-│       └── compliance_documents/
-├── docker/               # Docker configuration
-└── main.py              # Application entry point
-app.py                   # Root entry point for Replit
-README.md               # This documentation
+│   │   ├── reviewer_agent.py      # Findings generation agent
+│   │   └── auditor_agent.py       # Final audit agent
+│   ├── backend/                   # API backend
+│   │   └── fastapi_server.py      # REST API endpoints
+│   ├── config/                    # Configuration management
+│   │   ├── settings.py            # Application settings
+│   │   ├── risk_thresholds.json   # Risk assessment parameters
+│   │   └── validation_parameters.json # Validation settings
+│   ├── core/                      # Core business logic
+│   │   └── llm_manager.py         # Multi-provider LLM management
+│   ├── data/                      # Data management
+│   │   └── real_data_loader.py    # Enterprise data loading
+│   ├── ui/                        # User interface components
+│   │   └── configuration_panel.py # Configuration interface
+│   └── utils/                     # Utilities and helpers
+│       ├── audit_logger.py        # Audit trail management
+│       ├── report_generator.py    # Report generation
+│       ├── sample_data_loader.py  # Sample data utilities
+│       ├── validation_metrics.py  # Statistical calculations
+│       └── workflow_manager.py    # Workflow orchestration
+├── sample_data/                   # Sample datasets
+│   ├── credit_data.csv            # Sample credit portfolio
+│   └── governance_policy.txt      # Sample documentation
+├── docs/                          # Documentation
+│   └── ONBOARDING.md             # Developer guide
+├── app.py                        # Main Streamlit application
+├── README.md                     # Project documentation
+└── replit.md                     # Technical architecture guide
 ```
 
 ## Validation Process
