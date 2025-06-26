@@ -18,6 +18,7 @@ from utils.validation_metrics import ValidationMetrics
 from utils.workflow_manager import WorkflowManager
 from utils.audit_logger import AuditLogger
 from utils.report_generator import ReportGenerator
+from utils.sample_data_loader import sample_loader
 
 # Initialize session state
 if 'workflow_state' not in st.session_state:
@@ -101,55 +102,143 @@ def main():
 
 def show_dashboard():
     """Display the main dashboard"""
-    st.header("📊 Dashboard")
+    st.header("📊 ValiCred-AI Dashboard")
     
+    # System status overview
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
+        validation_status = "In Progress" if st.session_state.workflow_state['current_step'] > 0 else "Ready"
+        if len(st.session_state.workflow_state['completed_steps']) >= 6:
+            validation_status = "Complete"
         st.metric(
             "Validation Status",
-            "In Progress" if st.session_state.workflow_state['current_step'] > 0 else "Not Started",
+            validation_status,
             f"{len(st.session_state.workflow_state['completed_steps'])}/6 steps"
         )
     
     with col2:
+        data_status = "Loaded" if st.session_state.validation_data is not None else "None"
+        records_count = len(st.session_state.validation_data) if st.session_state.validation_data is not None else 0
         st.metric(
-            "Files Uploaded",
-            len(st.session_state.uploaded_files),
-            "documents"
+            "Dataset",
+            data_status,
+            f"{records_count:,} records" if records_count > 0 else "No data"
         )
     
     with col3:
         st.metric(
-            "Human Interventions",
-            len(st.session_state.workflow_state['human_feedback']),
-            "reviews"
+            "Documents",
+            len(st.session_state.uploaded_files),
+            "files uploaded"
         )
     
     with col4:
         st.metric(
-            "Audit Entries",
+            "Audit Trail",
             len(st.session_state.workflow_state['audit_trail']),
-            "logged"
+            "entries logged"
         )
     
     st.markdown("---")
+    
+    # Quick start section
+    st.subheader("Quick Start")
+    
+    if st.session_state.validation_data is None:
+        st.info("💡 **Get Started**: Load sample data to begin the validation process")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("📊 Load Sample Credit Data", use_container_width=True, type="primary"):
+                try:
+                    df, data_info = sample_loader.load_credit_data()
+                    st.session_state.validation_data = df
+                    st.session_state.data_info = data_info
+                    st.success(f"Sample data loaded! {len(df):,} records with {data_info.get('default_rate', 0):.1%} default rate")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error: {str(e)}")
+        
+        with col2:
+            if st.button("📄 Load Sample Documents", use_container_width=True):
+                sample_docs = sample_loader.get_sample_documents()
+                st.session_state.uploaded_files.update(sample_docs)
+                st.success(f"Loaded {len(sample_docs)} sample documents")
+                st.rerun()
+    
+    else:
+        # Show data summary
+        df = st.session_state.validation_data
+        st.subheader("Current Dataset Summary")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.write("**Data Overview**")
+            st.write(f"• Records: {len(df):,}")
+            st.write(f"• Features: {len(df.columns)}")
+            if 'default_flag' in df.columns:
+                st.write(f"• Default Rate: {df['default_flag'].mean():.1%}")
+        
+        with col2:
+            st.write("**Data Quality**")
+            missing_pct = (df.isnull().sum().sum() / (len(df) * len(df.columns))) * 100
+            st.write(f"• Missing Values: {missing_pct:.1%}")
+            st.write(f"• Duplicates: {df.duplicated().sum()}")
+            st.write(f"• Completeness: {100-missing_pct:.1%}")
+        
+        with col3:
+            st.write("**Ready for Validation**")
+            if st.button("🚀 Start Validation Workflow", use_container_width=True, type="primary"):
+                st.switch_page("Agent Workflow")
+    
+    # Workflow progress
+    if st.session_state.workflow_state['current_step'] > 0:
+        st.subheader("Validation Progress")
+        
+        progress_steps = [
+            "Analyst Agent",
+            "Validator Agent", 
+            "Documentation Agent",
+            "Human Review",
+            "Reviewer Agent",
+            "Auditor Agent"
+        ]
+        
+        current_step = st.session_state.workflow_state['current_step']
+        completed_steps = st.session_state.workflow_state['completed_steps']
+        
+        progress_bar = st.progress(len(completed_steps) / len(progress_steps))
+        
+        # Show step status
+        for i, step_name in enumerate(progress_steps):
+            if i in completed_steps:
+                st.write(f"✅ {step_name} - Completed")
+            elif i == current_step:
+                st.write(f"🔄 {step_name} - In Progress")
+            else:
+                st.write(f"⏳ {step_name} - Pending")
     
     # Recent activity
     st.subheader("Recent Activity")
     if st.session_state.workflow_state['audit_trail']:
         recent_activities = st.session_state.workflow_state['audit_trail'][-5:]
         for activity in reversed(recent_activities):
-            st.write(f"• {activity['timestamp']}: {activity['action']} - {activity['details']}")
+            timestamp = activity['timestamp'].split('T')[1][:8] if 'T' in activity['timestamp'] else activity['timestamp']
+            st.write(f"• `{timestamp}` {activity['action']}")
     else:
-        st.info("No recent activity. Start by uploading data or documents.")
+        st.info("No activity yet. Load data and start validation to see activity here.")
     
-    # Quick actions
-    st.subheader("Quick Actions")
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        if st.button("🔄 Start New Validation", use_container_width=True):
+    # System information
+    with st.expander("System Information"):
+        st.write("**ValiCred-AI Components:**")
+        st.write("• Multi-agent validation system with 6 specialized agents")
+        st.write("• Human-in-the-loop review capabilities")
+        st.write("• Comprehensive audit trail and reporting")
+        st.write("• Real-time validation metrics calculation")
+        st.write("• Regulatory compliance assessment")
+        
+        if st.button("Reset System", type="secondary"):
             st.session_state.workflow_state = {
                 'current_step': 0,
                 'completed_steps': [],
@@ -158,20 +247,41 @@ def show_dashboard():
                 'validation_results': {},
                 'audit_trail': []
             }
-            st.success("New validation workflow started!")
+            st.session_state.validation_data = None
+            st.session_state.uploaded_files = {}
+            st.success("System reset successfully!")
             st.rerun()
-    
-    with col2:
-        if st.button("📊 View Results", use_container_width=True):
-            st.switch_page("Validation Results")
-    
-    with col3:
-        if st.button("📋 Generate Report", use_container_width=True):
-            st.switch_page("Reports")
 
 def show_data_upload():
     """Handle data and document uploads"""
     st.header("📁 Data Upload")
+    
+    # Sample data section
+    st.subheader("Sample Data")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("Load Sample Credit Data", use_container_width=True):
+            try:
+                df, data_info = sample_loader.load_credit_data()
+                st.session_state.validation_data = df
+                st.session_state.data_info = data_info
+                st.success(f"Sample data loaded! Shape: {df.shape}, Default rate: {data_info.get('default_rate', 0):.2%}")
+                st.rerun()
+            except Exception as e:
+                st.error(f"Error loading sample data: {str(e)}")
+    
+    with col2:
+        if st.button("Load Sample Documents", use_container_width=True):
+            try:
+                sample_docs = sample_loader.get_sample_documents()
+                st.session_state.uploaded_files.update(sample_docs)
+                st.success(f"Loaded {len(sample_docs)} sample documents!")
+                st.rerun()
+            except Exception as e:
+                st.error(f"Error loading sample documents: {str(e)}")
+    
+    st.markdown("---")
     
     # Model data upload
     st.subheader("Model Data")
@@ -198,6 +308,8 @@ def show_data_upload():
                 st.write(f"- Rows: {df.shape[0]:,}")
                 st.write(f"- Columns: {df.shape[1]}")
                 st.write(f"- Missing values: {df.isnull().sum().sum()}")
+                if 'default_flag' in df.columns:
+                    st.write(f"- Default rate: {df['default_flag'].mean():.2%}")
             
             with col2:
                 st.write("**Column Types:**")
@@ -206,6 +318,33 @@ def show_data_upload():
             
         except Exception as e:
             st.error(f"Error loading data: {str(e)}")
+    
+    # Show current data if loaded
+    if st.session_state.validation_data is not None:
+        st.subheader("Current Dataset")
+        df = st.session_state.validation_data
+        
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("Records", f"{len(df):,}")
+        with col2:
+            st.metric("Features", len(df.columns))
+        with col3:
+            st.metric("Missing Values", df.isnull().sum().sum())
+        with col4:
+            if 'default_flag' in df.columns:
+                st.metric("Default Rate", f"{df['default_flag'].mean():.2%}")
+        
+        # Show columns
+        with st.expander("View Column Details"):
+            for col in df.columns:
+                col_info = f"**{col}**: {df[col].dtype}"
+                if df[col].dtype in ['int64', 'float64']:
+                    col_info += f" (Range: {df[col].min():.2f} - {df[col].max():.2f})"
+                elif df[col].dtype == 'object':
+                    unique_vals = df[col].nunique()
+                    col_info += f" ({unique_vals} unique values)"
+                st.write(col_info)
     
     st.markdown("---")
     

@@ -1,0 +1,16 @@
+parameter_name,parameter_value,parameter_type,description,threshold_type
+auc_threshold,0.7,float,Minimum acceptable AUC score,minimum
+ks_threshold,0.2,float,Minimum acceptable KS statistic,minimum
+psi_threshold,0.25,float,Maximum acceptable PSI value,maximum
+gini_threshold,0.4,float,Minimum acceptable Gini coefficient,minimum
+missing_data_threshold,0.05,float,Maximum acceptable missing data rate,maximum
+duplicate_threshold,0.02,float,Maximum acceptable duplicate rate,maximum
+sample_size_minimum,1000,int,Minimum required sample size,minimum
+feature_count_minimum,5,int,Minimum required feature count,minimum
+data_quality_threshold,0.8,float,Minimum acceptable data quality score,minimum
+population_stability_warning,0.1,float,PSI warning threshold,maximum
+population_stability_critical,0.25,float,PSI critical threshold,maximum
+model_approval_auc,0.75,float,AUC threshold for automatic approval,minimum
+model_approval_ks,0.25,float,KS threshold for automatic approval,minimum
+documentation_completeness,0.8,float,Required documentation completeness,minimum
+compliance_coverage_minimum,2,int,Minimum compliance frameworks required,minimum
