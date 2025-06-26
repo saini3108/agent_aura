@@ -1,308 +1,294 @@
+
 # ValiCred-AI Developer Onboarding Guide
 
-Welcome to ValiCred-AI! This guide will help you understand the system architecture, set up your development environment, and start contributing to the project.
+Welcome to the ValiCred-AI development team! This guide will help you understand the system architecture, set up your development environment, and contribute effectively.
 
-## Project Overview
+## 🏗️ System Architecture Overview
 
-ValiCred-AI is an enterprise-grade credit risk model validation platform that uses AI agents to provide intelligent analysis of credit risk models. The system is designed for financial institutions to ensure regulatory compliance and model reliability.
+ValiCred-AI follows a clean, modular architecture that separates concerns into logical components:
 
-### Key Technologies
+### Core Architecture Principles
+1. **Modular Design**: Each component has a single responsibility
+2. **Clean Interfaces**: Well-defined APIs between modules
+3. **Scalable Structure**: Easy to extend and maintain
+4. **Configuration-Driven**: Behavior controlled through config files
 
-- **Frontend**: Streamlit (Python web framework)
-- **AI Integration**: Multi-provider LLM support (Groq, OpenAI, Anthropic, Gemini)
-- **Data Processing**: Pandas, NumPy, Scikit-learn
-- **Architecture**: Clean enterprise architecture with modular design
-- **Deployment**: Replit with automatic scaling
-
-## Architecture Overview
-
+### Directory Structure
 ```
-ValiCred-AI/
-├── main.py                    # Application entry point
-├── src/                       # Core source code
-│   ├── config/               # Configuration management
-│   │   └── settings.py       # Centralized settings and API key management
-│   ├── core/                 # Core business logic
-│   │   └── llm_manager.py    # Multi-provider LLM orchestration
-│   ├── data/                 # Data management and validation
-│   │   └── real_data_loader.py # Enterprise data loading system
-│   ├── ui/                   # User interface components
-│   │   └── configuration_panel.py # API key and settings UI
-│   ├── agents/               # AI agent implementations (planned)
-│   ├── api/                  # REST API endpoints (planned)
-│   └── utils/                # Shared utilities (planned)
-├── docs/                     # Documentation
-├── tests/                    # Test suite
-└── README.md                 # Project documentation
+src/
+├── core/                     # System Core Components
+│   ├── app_factory.py        # Application initialization & dependency injection
+│   ├── mcp_protocol.py       # Model Control Protocol implementation
+│   ├── langgraph_workflow.py # Advanced workflow orchestration
+│   ├── human_in_loop.py      # Human review integration
+│   └── memory_manager.py     # Session and state management
+├── agents/                   # AI Validation Agents
+│   ├── analyst_agent.py      # Data analysis & quality assessment
+│   ├── validator_agent.py    # Statistical validation metrics
+│   ├── documentation_agent.py# Document completeness review
+│   ├── reviewer_agent.py     # Final review & recommendations
+│   └── auditor_agent.py      # Regulatory compliance audit
+├── ui/                       # User Interface Components
+│   ├── dashboard.py          # Main dashboard interface
+│   ├── workflow_interface.py # MCP workflow management
+│   ├── live_agent_display.py # Real-time agent monitoring
+│   ├── reports_interface.py  # Report generation & viewing
+│   └── configuration_panel.py# System configuration UI
+├── utils/                    # Utility Functions
+│   ├── workflow_engine.py    # Core workflow orchestration
+│   ├── audit_logger.py       # Comprehensive audit logging
+│   ├── validation_metrics.py # Statistical calculation utilities
+│   ├── sample_data_loader.py # Data loading & preprocessing
+│   └── enhanced_report_generator.py # Advanced report generation
+└── config/                   # Configuration Management
+    ├── settings.py           # Application-wide settings
+    ├── mcp_agents.json       # Agent behavior configuration
+    ├── workflow_config.json  # Workflow execution definitions
+    ├── compliance_frameworks.json # Regulatory framework specs
+    ├── risk_thresholds.json  # Risk assessment thresholds
+    ├── validation_parameters.json # Validation metric parameters
+    └── ui_settings.json      # User interface configuration
 ```
 
-## Development Setup
+## 🚀 Development Environment Setup
 
 ### Prerequisites
+- Python 3.11+
+- Basic understanding of Streamlit framework
+- Familiarity with pandas, numpy for data processing
+- Knowledge of financial risk modeling (helpful but not required)
 
-1. **Python 3.11+**: Ensure you have Python 3.11 or higher installed
-2. **API Keys**: At least one LLM provider API key (Groq recommended for free tier)
-3. **Git**: For version control
-
-### Local Development
-
-1. **Clone the repository**
+### Getting Started
+1. **Environment Setup**
    ```bash
-   git clone <repository-url>
-   cd valicred-ai
+   # The system automatically manages dependencies
+   # No virtual environment needed in Replit
    ```
 
-2. **Install dependencies**
+2. **Run the Application**
    ```bash
-   pip install -r requirements.txt
+   streamlit run app.py --server.port 5000
    ```
 
-3. **Set up environment variables**
-   ```bash
-   export GROQ_API_KEY=your_groq_api_key
-   # Optional: Add other provider keys
-   export OPENAI_API_KEY=your_openai_key
-   export ANTHROPIC_API_KEY=your_anthropic_key
-   ```
+3. **Access Development Interface**
+   - Main application: `http://0.0.0.0:5000`
+   - All features available in development mode
 
-4. **Run the application**
-   ```bash
-   streamlit run main.py --server.port 5000
-   ```
+## 🔧 Key Components Deep Dive
 
-5. **Access the application**
-   - Open browser to `http://localhost:5000`
-   - Configure API keys through Configuration panel
-   - Start with sample data or upload your own
+### 1. Core Components (`src/core/`)
 
-## Core Components
+#### `app_factory.py`
+- **Purpose**: Central application initialization
+- **Key Functions**: Component creation, dependency injection
+- **When to Modify**: Adding new system-wide components
 
-### 1. Configuration Management (`src/config/settings.py`)
+#### `workflow_engine.py`
+- **Purpose**: Orchestrates multi-agent workflows
+- **Key Functions**: Step execution, state management, error handling
+- **When to Modify**: Adding new workflow steps or execution logic
 
-Central configuration system managing:
-- API keys for multiple LLM providers
-- Risk assessment thresholds
-- Workflow parameters
-- Agent configurations
+#### `mcp_protocol.py`
+- **Purpose**: Implements Model Control Protocol for agent communication
+- **Key Functions**: Agent messaging, status tracking, result aggregation
+- **When to Modify**: Enhancing agent communication protocols
 
-**Key Classes:**
-- `ValiCredConfig`: Main configuration container
-- `APIConfig`: API key management
-- `RiskThresholds`: Validation thresholds
-- `ModelConfig`: AI model settings
+### 2. Agent System (`src/agents/`)
 
-### 2. LLM Management (`src/core/llm_manager.py`)
-
-Enterprise-grade LLM provider management with:
-- Multi-provider support (Groq, OpenAI, Anthropic, Gemini)
-- Automatic failover and load balancing
-- Rate limiting and cost tracking
-- Health monitoring
-
-**Key Classes:**
-- `LLMManager`: Main orchestration class
-- `LLMProvider`: Abstract provider interface
-- `GroqProvider`, `OpenAIProvider`, etc.: Specific implementations
-
-### 3. Data Management (`src/data/real_data_loader.py`)
-
-Comprehensive data loading and validation:
-- Multiple data source support (CSV, Excel, Database, API)
-- Enterprise data quality validation
-- Regulatory compliance checks
-- Sample data generation for testing
-
-**Key Classes:**
-- `CreditDataLoader`: Main data loading interface
-- `CreditDataValidator`: Data quality assessment
-- `DataQualityMetrics`: Quality scoring system
-
-### 4. User Interface (`src/ui/configuration_panel.py`)
-
-Advanced configuration interface featuring:
-- Secure API key management
-- Dynamic model selection
-- Risk threshold configuration
-- Real-time provider monitoring
-
-## AI Agent System
-
-The system uses specialized AI agents for different validation aspects:
-
-1. **Analyst Agent**: Data analysis and risk factor identification
-2. **Validator Agent**: Statistical validation metrics calculation
-3. **Documentation Agent**: Regulatory compliance review
-4. **Reviewer Agent**: Executive summary and recommendations
-5. **Auditor Agent**: Final independent validation
-
-### Agent Development Guidelines
-
-When developing new agents:
-
-1. **Follow the pattern**: Each agent should have a clear, specific purpose
-2. **Use proper prompting**: Create detailed, role-specific prompts
-3. **Handle errors gracefully**: Implement comprehensive error handling
-4. **Maintain audit trail**: Log all agent activities
-5. **Regulatory compliance**: Ensure outputs meet regulatory standards
-
-## Data Integration
-
-### Supported Data Sources
-
-- **File uploads**: CSV, Excel, Parquet, JSON
-- **Database connections**: PostgreSQL, MySQL, SQL Server
-- **API endpoints**: REST APIs with authentication
-- **Streaming data**: Real-time data processing (planned)
-
-### Data Quality Framework
-
-The system implements comprehensive data quality checks:
-
-- **Completeness**: Missing data analysis
-- **Accuracy**: Value range and format validation
-- **Consistency**: Logical relationship verification
-- **Validity**: Schema and business rule compliance
-- **Regulatory compliance**: Basel III and IFRS 9 requirements
-
-## Testing Guidelines
-
-### Test Structure
-
-```
-tests/
-├── unit/                 # Unit tests for individual components
-├── integration/          # Integration tests for workflows
-└── data/                 # Test data and fixtures
+#### Agent Development Pattern
+```python
+class NewAgent:
+    def __init__(self, config):
+        self.config = config
+    
+    def run(self, context):
+        # Agent logic here
+        return {
+            'status': 'completed',
+            'analysis': {},
+            'recommendations': []
+        }
 ```
 
-### Running Tests
+#### Adding New Agents
+1. Create agent file in `src/agents/`
+2. Update `src/config/mcp_agents.json`
+3. Add to workflow execution order in `src/config/workflow_config.json`
+4. Update UI components to display results
 
+### 3. User Interface (`src/ui/`)
+
+#### UI Development Guidelines
+- Use Streamlit components consistently
+- Implement proper error handling
+- Add loading states for long operations
+- Follow existing styling patterns
+
+#### Adding New UI Components
+1. Create component in appropriate UI module
+2. Import and integrate in `app.py`
+3. Update navigation if needed
+4. Test responsive behavior
+
+## 📊 Configuration Management
+
+### Configuration Files Overview
+
+#### `settings.py` - Global Settings
+```python
+class Settings:
+    AUDIT_LEVEL = "INFO"
+    MAX_WORKFLOW_STEPS = 10
+    DEFAULT_THRESHOLDS = {...}
+```
+
+#### `workflow_config.json` - Workflow Definitions
+```json
+{
+  "execution_order": ["analyst", "validator", "documentation", "human_review", "reviewer", "auditor"],
+  "parallel_execution": false,
+  "timeout_seconds": 300
+}
+```
+
+#### `risk_thresholds.json` - Risk Assessment Parameters
+```json
+{
+  "auc_threshold": 0.65,
+  "ks_threshold": 0.3,
+  "psi_threshold": 0.25
+}
+```
+
+### Modifying Configurations
+1. **Development**: Edit JSON files directly
+2. **Production**: Use configuration panel in UI
+3. **Validation**: System validates config on startup
+
+## 🔄 Development Workflow
+
+### 1. Feature Development Process
 ```bash
-# Run all tests
-python -m pytest tests/
-
-# Run with coverage
-python -m pytest tests/ --cov=src/
-
-# Run specific test categories
-python -m pytest tests/unit/
-python -m pytest tests/integration/
+# 1. Understand the requirement
+# 2. Identify affected components
+# 3. Plan the implementation
+# 4. Code the feature
+# 5. Test thoroughly
+# 6. Update documentation
 ```
 
-### Test Coverage Requirements
+### 2. Testing Strategy
+- **Unit Testing**: Test individual components
+- **Integration Testing**: Test component interactions
+- **End-to-End Testing**: Test complete workflows
+- **User Testing**: Validate UI/UX improvements
 
-- **Unit tests**: 95%+ coverage for core components
-- **Integration tests**: End-to-end workflow validation
-- **Performance tests**: Load testing for production readiness
+### 3. Code Quality Standards
+- Follow PEP 8 for Python code style
+- Add comprehensive docstrings
+- Include type hints where appropriate
+- Handle errors gracefully
 
-## Regulatory Compliance
+## 🐛 Debugging Guide
 
-### Supported Frameworks
+### Common Issues and Solutions
 
-- **Basel III**: Capital adequacy and risk management
-- **IFRS 9**: Financial instrument classification
-- **SR 11-7**: Model risk management guidance
-- **CCAR**: Comprehensive capital analysis
-- **CECL**: Current expected credit loss
+#### 1. Agent Execution Failures
+```python
+# Check audit logs
+audit_logger.get_recent_logs()
 
-### Compliance Implementation
+# Verify agent configuration
+with open('src/config/mcp_agents.json') as f:
+    config = json.load(f)
+```
 
-1. **Data requirements**: Ensure all required fields are present
-2. **Validation metrics**: Calculate required statistical measures
-3. **Documentation**: Maintain comprehensive audit trails
-4. **Approval workflows**: Implement multi-level reviews
+#### 2. UI Component Issues
+- Check browser console for JavaScript errors
+- Verify Streamlit component integration
+- Test with different data inputs
 
-## Security Best Practices
+#### 3. Configuration Problems
+- Validate JSON syntax
+- Check file permissions
+- Verify configuration schema compliance
 
-### API Key Management
+### Debugging Tools
+1. **Audit Logger**: Comprehensive system activity logging
+2. **Streamlit Debugging**: Built-in error reporting
+3. **Python Debugging**: Standard debugging techniques
 
-- **Never hardcode**: Use environment variables or configuration UI
-- **Secure storage**: Keys are encrypted and never displayed
-- **Access control**: Implement role-based permissions
-- **Audit logging**: Track all API key usage
+## 📈 Performance Optimization
 
-### Data Privacy
+### Best Practices
+1. **Efficient Data Processing**: Use vectorized operations
+2. **Memory Management**: Monitor memory usage in long workflows
+3. **Caching**: Implement appropriate caching strategies
+4. **Async Operations**: Use async/await for I/O operations
 
-- **Data minimization**: Only process necessary data
-- **Local processing**: AI analysis happens locally when possible
-- **Audit trails**: Complete activity tracking
-- **Compliance**: Follow financial data protection regulations
+### Monitoring
+- Track agent execution times
+- Monitor memory usage
+- Log performance metrics
 
-## Deployment
+## 🔐 Security Considerations
 
-### Replit Deployment
+### Data Security
+- Sanitize all user inputs
+- Validate file uploads
+- Implement proper access controls
 
-The application is optimized for Replit deployment:
+### Audit Compliance
+- Log all user actions
+- Maintain data lineage
+- Ensure regulatory compliance
 
-1. **Environment setup**: Configure secrets in Replit
-2. **Automatic scaling**: Handles variable load automatically
-3. **Port configuration**: Uses port 5000 for web access
-4. **Health monitoring**: Built-in health checks
+## 🚀 Deployment Considerations
 
-### Production Considerations
+### Environment Preparation
+- Verify all dependencies
+- Test configuration files
+- Validate data connections
 
-For production deployment:
+### Production Checklist
+- [ ] All tests passing
+- [ ] Documentation updated
+- [ ] Configuration validated
+- [ ] Performance tested
+- [ ] Security reviewed
 
-- **Database backend**: Use PostgreSQL for data persistence
-- **Load balancing**: Deploy multiple instances
-- **Monitoring**: Implement comprehensive logging
-- **Backup strategy**: Regular data and configuration backups
+## 📚 Additional Resources
 
-## Contributing Guidelines
+### Documentation
+- [Streamlit Documentation](https://docs.streamlit.io)
+- [Pandas Documentation](https://pandas.pydata.org/docs/)
+- [Financial Risk Modeling Best Practices]
 
-### Code Standards
+### Code Examples
+- Check `sample_data/` for example data formats
+- Review existing agents for implementation patterns
+- Study configuration files for customization options
 
-- **Python style**: Follow PEP 8 guidelines
-- **Type hints**: Full type annotation required
-- **Documentation**: Comprehensive docstrings for all functions
-- **Error handling**: Implement proper exception handling
+## 🤝 Contributing Guidelines
 
-### Git Workflow
+### Code Contributions
+1. Follow the established architecture patterns
+2. Add comprehensive tests
+3. Update relevant documentation
+4. Ensure backwards compatibility
 
-1. **Feature branches**: Create branches for new features
-2. **Pull requests**: All changes via pull requests
-3. **Code review**: Require review before merging
-4. **Testing**: All tests must pass before merge
+### Bug Reports
+1. Provide detailed reproduction steps
+2. Include system configuration
+3. Attach relevant log files
+4. Describe expected vs actual behavior
 
-### Documentation Requirements
+### Feature Requests
+1. Describe the business need
+2. Provide implementation suggestions
+3. Consider impact on existing features
+4. Include acceptance criteria
 
-- **API documentation**: Document all public interfaces
-- **User guides**: Maintain user-facing documentation
-- **Technical docs**: Keep technical documentation current
-- **Code comments**: Explain complex logic and decisions
+---
 
-## Troubleshooting
-
-### Common Issues
-
-**API Connection Failures**
-- Verify API keys in Configuration panel
-- Check network connectivity
-- Review provider status dashboards
-
-**Data Loading Errors**
-- Validate data format and schema
-- Check file permissions and accessibility
-- Review data quality validation results
-
-**Performance Issues**
-- Monitor LLM provider response times
-- Consider switching to faster providers (Groq)
-- Optimize data processing workflows
-
-### Getting Help
-
-- **Documentation**: Check comprehensive docs
-- **Code examples**: Review existing implementations
-- **Issue tracking**: Use GitHub Issues for bug reports
-- **Community**: Join development discussions
-
-## Next Steps
-
-1. **Explore the codebase**: Start with `main.py` and core components
-2. **Run tests**: Ensure your environment is working correctly
-3. **Try the UI**: Upload data and run the AI workflow
-4. **Read documentation**: Review technical documentation
-5. **Join development**: Pick up issues and start contributing
-
-Welcome to the ValiCred-AI development team!
+Welcome to the team! If you have questions, refer to this guide or check the audit logs for system behavior insights.
