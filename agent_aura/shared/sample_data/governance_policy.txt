@@ -1,0 +1,150 @@
+CREDIT RISK MODEL GOVERNANCE POLICY
+
+Policy Number: CRM-001
+Effective Date: January 2025
+Review Date: January 2026
+
+1. PURPOSE AND SCOPE
+
+This policy establishes the governance framework for credit risk models used in lending decisions, ensuring compliance with regulatory requirements and sound risk management practices.
+
+2. REGULATORY FRAMEWORK
+
+2.1 Basel III Capital Framework
+- Minimum capital requirements
+- Risk-weighted asset calculations
+- Stress testing requirements
+- Pillar 2 supervisory review
+
+2.2 IFRS 9 Financial Instruments
+- Expected Credit Loss methodology
+- Staging and migration analysis
+- Forward-looking information
+- Model validation requirements
+
+2.3 Supervisory Guidance SR 11-7
+- Model risk management framework
+- Independent validation standards
+- Model inventory maintenance
+- Governance oversight requirements
+
+3. MODEL RISK MANAGEMENT FRAMEWORK
+
+3.1 Three Lines of Defense
+First Line: Business units responsible for model development and use
+Second Line: Model Risk Management independent oversight
+Third Line: Internal Audit independent assurance
+
+3.2 Model Lifecycle Management
+- Development and approval process
+- Implementation and deployment
+- Ongoing monitoring and validation
+- Model refresh and retirement
+
+4. GOVERNANCE STRUCTURE
+
+4.1 Model Risk Committee
+- Quarterly meetings required
+- Senior management representation
+- Model approval authority
+- Risk appetite oversight
+
+4.2 Roles and Responsibilities
+Chief Risk Officer: Overall model risk accountability
+Model Risk Manager: Day-to-day oversight
+Business Units: Model development and use
+Internal Audit: Independent assessment
+
+5. MODEL VALIDATION REQUIREMENTS
+
+5.1 Independent Validation
+- Separate from model development
+- Appropriate expertise and resources
+- Comprehensive testing approach
+- Clear validation conclusions
+
+5.2 Validation Standards
+- Conceptual soundness review
+- Ongoing monitoring analysis
+- Outcomes analysis testing
+- Documentation assessment
+
+6. DOCUMENTATION STANDARDS
+
+6.1 Required Documentation
+- Model development documentation
+- Validation reports and findings
+- Approval committee minutes
+- Ongoing monitoring reports
+
+6.2 Document Retention
+- Minimum 7-year retention period
+- Regulatory examination availability
+- Version control requirements
+- Access control procedures
+
+7. MONITORING AND REPORTING
+
+7.1 Performance Monitoring
+- Monthly key metrics reporting
+- Quarterly comprehensive review
+- Annual model validation
+- Exception reporting protocols
+
+7.2 Key Risk Indicators
+- Model performance degradation
+- Data quality deterioration
+- Population stability measures
+- Regulatory threshold breaches
+
+8. MODEL APPROVAL PROCESS
+
+8.1 Initial Approval Requirements
+- Complete documentation package
+- Independent validation report
+- Business case justification
+- Risk assessment summary
+
+8.2 Ongoing Approval
+- Annual revalidation required
+- Material change assessment
+- Performance review analysis
+- Regulatory compliance verification
+
+9. TRAINING AND COMPETENCY
+
+9.1 Training Requirements
+- Model risk awareness training
+- Technical competency development
+- Regulatory update sessions
+- Annual certification process
+
+9.2 Competency Standards
+- Educational background requirements
+- Professional experience criteria
+- Ongoing development expectations
+- Performance evaluation metrics
+
+10. REGULATORY REPORTING
+
+10.1 Supervisory Reporting
+- Capital adequacy reports
+- Stress testing submissions
+- Model inventory updates
+- Validation finding responses
+
+10.2 Compliance Monitoring
+- Regulatory change tracking
+- Policy update requirements
+- Examination preparation
+- Finding remediation
+
+POLICY APPROVAL
+
+Approved by: Board Risk Committee
+Date: January 15, 2025
+
+Chief Risk Officer: Dr. Sarah Johnson
+Date: January 15, 2025
+
+Next Review: January 2026

@@ -1,174 +1,81 @@
 {
   "agents": {
     "analyst": {
-      "name": "CreditAnalystAgent",
-      "description": "Analyzes credit data structure, quality, and model characteristics",
-      "capabilities": [
-        "data_profiling",
-        "feature_analysis",
-        "quality_assessment",
-        "target_identification"
-      ],
+      "name": "AnalystAgent",
+      "description": "Analyzes model structure and data characteristics",
       "tools": [
-        "pandas_analyzer",
-        "statistical_profiler",
-        "data_quality_checker"
+        "data_analysis",
+        "feature_analysis",
+        "quality_assessment"
       ],
-      "parameters": {
-        "min_sample_size": 1000,
-        "max_missing_rate": 0.05,
-        "required_features": ["age", "income", "credit_score"]
-      }
+      "timeout": 300,
+      "retry_attempts": 3
     },
     "validator": {
-      "name": "ModelValidatorAgent",
-      "description": "Calculates and validates model performance metrics",
-      "capabilities": [
-        "auc_calculation",
-        "ks_testing",
-        "psi_monitoring",
-        "gini_analysis",
-        "roc_analysis"
-      ],
+      "name": "ValidatorAgent",
+      "description": "Calculates validation metrics and performance",
       "tools": [
-        "sklearn_metrics",
-        "custom_validators",
-        "stability_checker"
+        "auc_calculation",
+        "ks_test",
+        "psi_calculation",
+        "model_training"
       ],
-      "parameters": {
-        "test_size": 0.3,
-        "random_state": 42,
-        "cv_folds": 5
-      }
+      "timeout": 600,
+      "retry_attempts": 3
     },
     "documentation": {
-      "name": "ComplianceDocumentAgent",
-      "description": "Reviews documentation for regulatory compliance",
-      "capabilities": [
+      "name": "DocumentationAgent",
+      "description": "Reviews compliance documentation",
+      "tools": [
         "document_parsing",
-        "compliance_checking",
-        "regulation_mapping",
+        "compliance_check",
         "gap_analysis"
       ],
-      "tools": [
-        "document_analyzer",
-        "compliance_checker",
-        "regulation_mapper"
-      ],
-      "parameters": {
-        "required_frameworks": ["Basel III", "IFRS 9", "SR 11-7"],
-        "completeness_threshold": 0.8
-      }
+      "timeout": 300,
+      "retry_attempts": 2
     },
     "reviewer": {
-      "name": "RiskReviewerAgent",
-      "description": "Generates findings and risk assessments",
-      "capabilities": [
+      "name": "ReviewerAgent",
+      "description": "Generates findings and recommendations",
+      "tools": [
         "risk_assessment",
         "finding_generation",
-        "recommendation_synthesis",
-        "threshold_evaluation"
-      ],
-      "tools": [
-        "risk_calculator",
-        "finding_generator",
         "recommendation_engine"
       ],
-      "parameters": {
-        "risk_weights": {
-          "performance": 0.4,
-          "stability": 0.3,
-          "documentation": 0.2,
-          "governance": 0.1
-        }
-      }
+      "timeout": 300,
+      "retry_attempts": 2
     },
     "auditor": {
-      "name": "IndependentAuditorAgent",
-      "description": "Performs final independent validation and approval",
-      "capabilities": [
-        "independent_validation",
-        "governance_assessment",
-        "approval_recommendation",
-        "audit_trail_generation"
-      ],
+      "name": "AuditorAgent",
+      "description": "Performs final validation and approval",
       "tools": [
-        "audit_validator",
-        "governance_checker",
-        "approval_engine"
+        "independent_validation",
+        "compliance_audit",
+        "approval_assessment"
       ],
-      "parameters": {
-        "independence_checks": true,
-        "escalation_thresholds": {
-          "high_risk": 0.7,
-          "critical_risk": 0.9
-        }
-      }
+      "timeout": 300,
+      "retry_attempts": 2
     }
   },
   "workflow": {
-    "steps": [
-      {
-        "name": "data_analysis",
-        "agent": "analyst",
-        "dependencies": [],
-        "required_inputs": ["data"],
-        "outputs": ["data_profile", "quality_metrics"]
-      },
-      {
-        "name": "model_validation",
-        "agent": "validator",
-        "dependencies": ["data_analysis"],
-        "required_inputs": ["data", "data_profile"],
-        "outputs": ["performance_metrics", "validation_results"]
-      },
-      {
-        "name": "documentation_review",
-        "agent": "documentation",
-        "dependencies": [],
-        "required_inputs": ["documents"],
-        "outputs": ["compliance_assessment", "gap_analysis"]
-      },
-      {
-        "name": "human_review",
-        "agent": "human",
-        "dependencies": ["data_analysis", "model_validation", "documentation_review"],
-        "required_inputs": ["all_previous_outputs"],
-        "outputs": ["human_feedback", "approval_status"]
-      },
-      {
-        "name": "risk_review",
-        "agent": "reviewer",
-        "dependencies": ["human_review"],
-        "required_inputs": ["all_previous_outputs"],
-        "outputs": ["risk_assessment", "findings", "recommendations"]
-      },
-      {
-        "name": "final_audit",
-        "agent": "auditor",
-        "dependencies": ["risk_review"],
-        "required_inputs": ["all_outputs"],
-        "outputs": ["final_recommendation", "audit_report"]
-      }
-    ]
+    "execution_order": [
+      "analyst",
+      "validator",
+      "documentation",
+      "human_review",
+      "reviewer",
+      "auditor"
+    ],
+    "parallel_execution": false,
+    "checkpoint_enabled": true,
+    "auto_retry": true
   },
-  "langgraph_config": {
-    "state_schema": {
-      "data": "pandas.DataFrame",
-      "documents": "Dict[str, Any]",
-      "workflow_status": "str",
-      "current_step": "int",
-      "errors": "List[str]"
-    },
-    "checkpoints": {
-      "enabled": true,
-      "storage": "memory",
-      "max_history": 100
-    },
-    "human_in_loop": {
-      "pause_points": ["human_review"],
-      "timeout": 3600,
-      "escalation_policy": "admin_notification"
-    }
+  "human_in_loop": {
+    "pause_points": [
+      "human_review"
+    ],
+    "timeout": 3600,
+    "escalation_policy": "admin_notification",
+    "required_approvals": 1
   }
 }

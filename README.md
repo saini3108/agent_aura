@@ -27,10 +27,63 @@ A comprehensive AI-powered credit risk model validation system featuring multi-a
 - Multi-format report generation (summary, detailed, executive)
 - Configurable risk thresholds and validation parameters
 
+## Setup and Installation
+
+### New User Setup
+1. **Fork or Clone**: Fork this project to your Replit account
+2. **Install Dependencies**: Dependencies are automatically installed when you run the project
+3. **Start Application**: Click the "Run" button or use the configured workflow
+4. **Access Dashboard**: The app will be available at the provided URL on port 5000
+
+### System Requirements
+- Python 3.11+
+- Required packages are managed automatically via `pyproject.toml`
+- Streamlit configuration is pre-configured in `.streamlit/config.toml`
+
+### Local Setup Instructions
+
+To run ValiCred-AI on your laptop:
+
+1. **Clone the Repository**
+   ```bash
+   git clone <repository-url>
+   cd vali-cred-ai
+   ```
+
+2. **Set up Python Environment**
+   ```bash
+   # Create virtual environment
+   python -m venv venv
+   
+   # Activate virtual environment
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
+
+3. **Install Dependencies**
+   ```bash
+   # Install required packages
+   pip install streamlit pandas numpy plotly scikit-learn fastapi uvicorn pydantic scipy
+   
+   # Or use the project file
+   pip install -e .
+   ```
+
+4. **Run the Application**
+   ```bash
+   streamlit run app.py --server.port 5000
+   ```
+
+5. **Access the Dashboard**
+   - Open your browser to `http://localhost:5000`
+   - The ValiCred-AI dashboard will be available
+
 ## Quick Start
 
 ### 1. Launch the Application
-The ValiCred-AI server is running on port 5000. Access the dashboard to begin validation.
+The ValiCred-AI server runs automatically on port 5000. Access the dashboard to begin validation.
 
 ### 2. Load Sample Data
 1. Navigate to the Dashboard
@@ -60,6 +113,37 @@ The system includes realistic sample credit data with:
 - Features: age, income, credit_score, loan_amount, employment_years, debt_to_income
 - Multiple loan purposes and home ownership types
 
+## Implementation Status
+
+### ✅ Currently Implemented (Agent Aura Architecture)
+- **MCP + LangGraph Engine**: Complete workflow orchestration with async execution
+- **Human-in-the-Loop**: Interactive review checkpoints with approval workflow
+- **Agent Aura Structure**: Clean separation of frontend, agents, flows, and shared utilities
+- **Multi-Agent System**: All 5 specialized agents with configurable parameters
+- **Dynamic Configuration**: Interactive UI for thresholds, parameters, and workflow settings
+- **Real-time Monitoring**: Live workflow status, progress tracking, and error handling
+- **Comprehensive Audit Trail**: Full activity logging with session management
+- **Sample Data Integration**: Realistic credit dataset and compliance documents
+
+### 🔄 Enhanced Features
+- **Workflow Engine**: MCP-compliant engine with retry logic and error recovery
+- **Configuration Management**: Dynamic parameter adjustment through UI
+- **Status Dashboard**: Real-time system monitoring and workflow visualization
+- **Interactive Review**: Streamlined human feedback collection and processing
+- **Robust Error Handling**: Comprehensive error tracking and recovery mechanisms
+
+### 📋 Architecture Implementation
+
+| Component | Implementation Status | Technology Stack |
+|-----------|----------------------|------------------|
+| Frontend | ✅ Complete | Streamlit with agent_aura structure |
+| Workflow Engine | ✅ MCP + LangGraph | Custom async orchestration engine |
+| Agents | ✅ Specialized | MCP-compliant agent classes |
+| Configuration | ✅ Dynamic | Interactive UI management |
+| Human-in-Loop | ✅ Interactive | Checkpoint-based review system |
+| Audit System | ✅ Comprehensive | Real-time logging and tracking |
+| Data Management | ✅ Integrated | Sample data with file handling |
+
 ## Architecture
 
 ### Frontend (Streamlit)
@@ -68,11 +152,11 @@ The system includes realistic sample credit data with:
 - Data visualization with Plotly
 - Human review interface
 
-### Backend (Planned FastAPI)
-- RESTful API for agent orchestration
-- Workflow state management
-- MCP (Model Context Protocol) agent architecture
-- LangGraph integration for complex workflows
+### Backend (FastAPI Foundation)
+- RESTful API endpoints for agent orchestration
+- Workflow state management framework
+- MCP (Model Context Protocol) agent configuration
+- LangGraph simulation for complex workflows
 
 ### Agent System
 - Modular agent design with specialized responsibilities
@@ -80,33 +164,41 @@ The system includes realistic sample credit data with:
 - Comprehensive error handling and logging
 - Human-in-the-loop integration points
 
-## Files Structure
+## Project Structure (Agent Aura Architecture)
 
 ```
-vali-cred-ai/
-├── agents/                 # AI agent implementations
-│   ├── analyst_agent.py
-│   ├── validator_agent.py
-│   ├── documentation_agent.py
-│   ├── reviewer_agent.py
-│   └── auditor_agent.py
-├── utils/                  # Utility modules
-│   ├── workflow_manager.py
-│   ├── validation_metrics.py
-│   ├── audit_logger.py
-│   ├── report_generator.py
-│   └── sample_data_loader.py
-├── sample_data/           # Sample datasets and configuration
-│   ├── credit_data.csv
-│   ├── validation_parameters.csv
-│   └── risk_thresholds.csv
-├── config/                # Configuration files
-│   └── mcp_agents.json
-├── backend/               # FastAPI backend (planned)
-│   ├── fastapi_server.py
-│   └── langgraph_workflow.py
-├── app.py                 # Main Streamlit application
-└── start_backend.py       # Backend server starter
+agent_aura/
+├── frontend/              # Streamlit application
+│   ├── app.py            # Main application with MCP integration
+│   └── configuration_manager.py  # Interactive configuration UI
+├── agent-service/
+│   ├── agents/           # MCP agent implementations
+│   │   ├── analyst_agent.py      # Data analysis agent
+│   │   ├── validator_agent.py    # Metrics validation agent
+│   │   ├── documentation_agent.py # Compliance review agent
+│   │   ├── reviewer_agent.py     # Findings generation agent
+│   │   └── auditor_agent.py      # Final audit agent
+│   ├── flows/            # LangGraph workflow orchestration
+│   │   └── mcp_workflow_engine.py # MCP + LangGraph engine
+│   ├── tools/            # FastAPI service tools
+│   │   ├── fastapi_server.py     # API endpoints
+│   │   └── langgraph_workflow.py # Workflow definitions
+│   └── memory/           # Context and state management
+├── shared/               # Shared utilities and configuration
+│   ├── system_config.py  # Dynamic configuration management
+│   ├── audit_logger.py   # Comprehensive audit trail
+│   ├── validation_metrics.py # Statistical calculations
+│   ├── workflow_manager.py    # Workflow coordination
+│   ├── report_generator.py    # Multi-format reporting
+│   ├── sample_data_loader.py  # Data loading utilities
+│   └── sample_data/      # Sample datasets
+│       ├── credit_data.csv
+│       ├── validation_parameters.csv
+│       └── compliance_documents/
+├── docker/               # Docker configuration
+└── main.py              # Application entry point
+app.py                   # Root entry point for Replit
+README.md               # This documentation
 ```
 
 ## Validation Process
@@ -180,12 +272,53 @@ Default validation thresholds:
 - Kubernetes deployment configuration
 - CI/CD pipeline integration
 
-## Usage Notes
+## Enhanced Agent Aura Features
 
-- Load sample data first to explore system capabilities
-- Each agent step builds on previous results
-- Human review is required at step 4 to continue workflow
-- All actions are logged in the audit trail
-- Reports can be generated at any stage of validation
+### MCP + LangGraph Integration
+- **Async Workflow Engine**: Complete orchestration with pause/resume capabilities
+- **Human-in-the-Loop**: Interactive review checkpoints with approval workflow
+- **Dynamic Configuration**: Real-time parameter adjustment through interactive UI
+- **Comprehensive Monitoring**: Live status tracking, progress visualization, and error handling
 
-The system demonstrates enterprise-ready model validation capabilities while maintaining simplicity for testing and evaluation.
+### Configuration Management
+- **Risk Thresholds**: Dynamic AUC, KS, PSI, and data quality threshold configuration
+- **Validation Parameters**: Cross-validation, model training, and statistical test settings
+- **Workflow Settings**: Timeout, retry policies, and human review configurations
+- **Agent Configuration**: Individual agent timeout and retry attempt settings
+
+### Workflow Capabilities
+- **Workflow Creation**: Automated workflow initialization with data and document inputs
+- **Step-by-Step Execution**: Individual agent execution with real-time status updates
+- **Error Recovery**: Automatic retry logic with configurable parameters
+- **Audit Integration**: Complete activity logging with session management
+
+### Interactive Dashboard
+- **Real-time Metrics**: Active workflows, agent status, and system health monitoring
+- **Progress Tracking**: Visual progress bars and step-by-step execution status
+- **Data Integration**: Sample data loading with immediate preview and analysis
+- **Status Visualization**: Agent execution times, retry counts, and error tracking
+
+## Usage Guide
+
+### Quick Start Workflow
+1. **Load Data**: Use "Load Sample Credit Data" to initialize the system
+2. **Load Documents**: Add compliance documents with "Load Sample Documents"
+3. **Create Workflow**: Navigate to MCP Workflow and create a new validation workflow
+4. **Execute Steps**: Run each agent individually (Analyst → Validator → Documentation)
+5. **Human Review**: Complete the human review checkpoint with feedback
+6. **Final Steps**: Execute Reviewer and Auditor agents for completion
+7. **Monitor Progress**: Track execution through the real-time dashboard
+
+### Configuration Management
+- Access the Configuration tab to adjust risk thresholds and validation parameters
+- Modify workflow settings including timeouts and retry policies
+- Update agent-specific configurations for optimal performance
+- Changes take effect immediately without requiring system restart
+
+### Audit and Monitoring
+- Review complete audit trail in the Audit Trail section
+- Monitor system status and active workflows in System Status
+- Track workflow execution history and performance metrics
+- Export audit logs for compliance and reporting purposes
+
+The agent_aura architecture provides enterprise-ready model validation with modern MCP + LangGraph orchestration while maintaining intuitive user interaction through Streamlit.

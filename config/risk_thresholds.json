@@ -1,0 +1,32 @@
+{
+  "auc": {
+    "excellent": 0.8,
+    "good": 0.7,
+    "acceptable": 0.6,
+    "minimum": 0.5
+  },
+  "ks": {
+    "excellent": 0.3,
+    "good": 0.2,
+    "acceptable": 0.15,
+    "minimum": 0.1
+  },
+  "psi": {
+    "stable": 0.1,
+    "acceptable": 0.15,
+    "moderate_drift": 0.25,
+    "significant_drift": 0.5
+  },
+  "gini": {
+    "excellent": 0.6,
+    "good": 0.4,
+    "acceptable": 0.2,
+    "minimum": 0.1
+  },
+  "data_quality": {
+    "excellent": 0.95,
+    "good": 0.9,
+    "acceptable": 0.8,
+    "minimum": 0.7
+  }
+}

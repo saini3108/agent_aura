@@ -1,0 +1,72 @@
+CREDIT RISK MODEL VALIDATION REPORT
+
+Model Name: Personal Credit Risk Scorecard v2.1
+Validation Date: June 2025
+Model Type: Logistic Regression Credit Scoring Model
+
+EXECUTIVE SUMMARY
+This report presents the independent validation of the Personal Credit Risk Scorecard model used for consumer lending decisions. The model demonstrates acceptable discriminatory power with an AUC of 0.742 and meets regulatory requirements under Basel III framework.
+
+MODEL PURPOSE AND SCOPE
+The credit risk model is designed to:
+- Assess probability of default for consumer loans
+- Support lending decisions for amounts up to $50,000
+- Provide risk-based pricing guidance
+- Monitor portfolio performance
+
+DATA SOURCES AND QUALITY
+Primary data sources include:
+- Internal credit bureau data (Experian, Equifax, TransUnion)
+- Application data from loan origination system
+- Historical performance data spanning 5 years
+- Macroeconomic indicators
+
+Data quality assessment shows:
+- 99.2% completeness across all variables
+- No significant data drift observed
+- Consistent data definitions maintained
+
+MODEL METHODOLOGY
+The model employs logistic regression with the following features:
+- Credit score (FICO)
+- Debt-to-income ratio
+- Employment history
+- Loan purpose
+- Home ownership status
+
+MODEL PERFORMANCE METRICS
+Discrimination:
+- AUC: 0.742 (Above minimum threshold of 0.70)
+- Gini Coefficient: 0.484
+- KS Statistic: 0.287
+
+Calibration:
+- Hosmer-Lemeshow test: p-value = 0.23 (Well calibrated)
+- Population Stability Index: 0.08 (Stable)
+
+REGULATORY COMPLIANCE
+Basel III Requirements:
+✓ Independent validation performed
+✓ Model documentation complete
+✓ Governance framework established
+✓ Risk appetite alignment confirmed
+
+IFRS 9 Compliance:
+✓ Forward-looking information incorporated
+✓ Staging methodology defined
+✓ ECL calculation framework established
+
+RECOMMENDATIONS
+1. Continue quarterly performance monitoring
+2. Implement automated drift detection
+3. Schedule annual model refresh
+4. Enhance documentation for stress testing
+
+APPROVAL STATUS
+Model approved for production use subject to:
+- Monthly performance monitoring
+- Quarterly stability assessment
+- Annual comprehensive review
+
+Validator: Dr. Sarah Johnson, Chief Risk Officer
+Date: June 26, 2025

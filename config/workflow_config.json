@@ -1,0 +1,29 @@
+{
+  "execution_settings": {
+    "max_concurrent_agents": 1,
+    "step_timeout": 600,
+    "total_timeout": 3600,
+    "enable_checkpoints": true
+  },
+  "retry_policy": {
+    "max_retries": 3,
+    "retry_delay": 5,
+    "exponential_backoff": true
+  },
+  "human_review": {
+    "mandatory_steps": [
+      "human_review"
+    ],
+    "optional_reviews": [
+      "validator",
+      "reviewer"
+    ],
+    "review_timeout": 3600,
+    "auto_approve": false
+  },
+  "notifications": {
+    "email_enabled": false,
+    "slack_enabled": false,
+    "in_app_only": true
+  }
+}

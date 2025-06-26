@@ -1,0 +1,26 @@
+{
+  "theme": {
+    "primary_color": "#FF6B6B",
+    "background_color": "#FFFFFF",
+    "secondary_background": "#F0F2F6",
+    "text_color": "#262730"
+  },
+  "dashboard": {
+    "show_progress_bar": true,
+    "auto_refresh_interval": 5,
+    "max_chart_points": 1000,
+    "default_chart_height": 400
+  },
+  "workflow": {
+    "show_agent_details": true,
+    "show_execution_time": true,
+    "show_step_dependencies": true,
+    "enable_step_rollback": false
+  },
+  "reports": {
+    "default_format": "html",
+    "include_charts": true,
+    "include_raw_data": false,
+    "max_report_size": "10MB"
+  }
+}
