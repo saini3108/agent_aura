@@ -1,8 +1,0 @@
-{
-  "theme": "light",
-  "show_debug_info": false,
-  "max_display_rows": 1000,
-  "chart_height": 400,
-  "enable_real_time_updates": true,
-  "refresh_interval": 5
-}

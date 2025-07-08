@@ -1,0 +1,17 @@
+# Check system health
+python scripts/cli.py health check-all
+
+# Test a workflow
+python scripts/cli.py workflows test model_validation
+
+# List workflow types
+python scripts/cli.py workflows list-types
+
+# Start the server
+python scripts/cli.py serve --debug
+
+# View workflow history
+python scripts/cli.py data workflows --limit 5
+
+# Run all tests
+python scripts/cli.py test-all

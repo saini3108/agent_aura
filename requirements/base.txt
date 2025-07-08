@@ -1,0 +1,22 @@
+# Core server & API
+fastapi
+pandas==2.3.0
+uvicorn[standard]
+pydantic
+typing-extensions
+httpx  # HTTP client for internal APIs or test scripts
+python-json-logger
+
+# LangGraph agentic infra
+langgraph
+openai==1.93.0
+anthropic==0.57.1
+groq==0.29.0
+
+# Caching / storage
+redis
+asyncpg
+sqlalchemy
+
+aiohttp==3.12.13
+numpy==2.3.1

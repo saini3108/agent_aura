@@ -1,0 +1,20 @@
+-r production.txt
+
+# Auto-reloading in dev
+watchfiles==1.0.5
+python-dotenv
+
+# Code quality
+ruff==0.4.6
+mypy
+black
+pre-commit==4.2.0
+
+# Testing
+pytest
+pytest-asyncio
+coverage==7.4.4
+types-requests
+
+# Optional for HTML/templating (can remove if not needed)
+djlint==1.36.4
